@@ -7,9 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-roboto: var(--font-roboto);
+  --font-montserrat: var(--font-montserrat);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-montserrat);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -121,13 +122,82 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  button:not(:disabled), [role="button"]:not(:disabled) {
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
   html {
     @apply font-sans;
+    font-synthesis: none;
   }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading
+  }
+
+  p,
+  span,
+  a,
+  label,
+  input, th, tr {
+    @apply font-roboto font-normal text-sm
+  }
+
+
+}
+
+@layer utilities {
+  .padding-x {
+    @apply px-4 sm:px-14 lg:px-28
+  }
+
+  .margin-y {
+    @apply my-18.75
+  }
+
+  .container {
+    @apply w-full max-w-[1440px] mx-auto
+  }
+
+
+  .form-label {
+    @apply font-medium text-sm font-roboto
+  }
+
+  .form-input {
+    @apply h-14 py-4.5 px-4 text-sm focus-visible:ring-primary focus-visible:ring-1 focus-visible:outline-none focus-visible:border-none rounded-sm placeholder:text-neutral-400 border-[#D0D5DD] outline-none shadow-none
+  }
+
+  .form-description {
+    @apply font-normal text-base text-neutral-600 leading-5
+  }
+
+  .form-error {
+    @apply font-roboto mt-0.5
+  }
+
+  .field {
+    @apply gap-1
+  }
+
+  .bill-sub-title {
+    @apply text-base font-semibold leading-6 font-roboto text-[#475367]
+  }
+
+  .submit-button {
+    @apply h-[55px] w-full rounded-md text-base font-semibold text-white
+  }
+
+  .dialog {
+    @apply max-w-[400px]! max-sm:w-[95vw] m-0 p-0 gap-0 rounded-2xl px-[28.5px] max-h-[95vh] min-h-[520px] overflow-hidden
+  }
+
 }

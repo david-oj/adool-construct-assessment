@@ -130,6 +130,8 @@ export default function SignupPage() {
 
   const onSubmit = (data: SignUpData) => {
     console.log("Signup Data: ", data);
+    const {confirmPassword: _confirmPassword, ...payload} = data;
+    
 
     // signUp(payload, {
     //   onSuccess: (res) => {

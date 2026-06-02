@@ -3,6 +3,7 @@ import { Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import Providers from "./Providers";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -38,8 +39,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Toaster position="top-right" richColors />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

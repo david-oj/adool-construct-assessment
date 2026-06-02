@@ -1,6 +1,5 @@
 "use client";
 
-// import { EyeOff } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -26,72 +25,13 @@ import { z } from "zod";
 import IntlTelInput from "@intl-tel-input/react";
 import "intl-tel-input/styles";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const signUpSchema = z
-  .object({
-    firstName: z
-      .string()
-      .min(3, "First name must be at least 3 characters long")
-      .max(100, "First name must be less than 100 characters long")
-      .regex(
-        /^[a-zA-Z\s'-]+$/,
-        "First name can only contain letters, spaces, hyphens, and apostrophes"
-      ),
-    lastName: z
-      .string()
-      .min(3, "Last name must be at least 3 characters long")
-      .max(100, "Last name must be less than 100 characters long")
-      .regex(
-        /^[a-zA-Z\s'-]+$/,
-        "last name can only contain letters, spaces, hyphens, and apostrophes"
-      ),
-    email: z
-      .email("Enter a valid email address")
-      .max(100, "email must be less than 100 characters long"),
-
-    phoneNumber: z
-      .string()
-      .min(7, "Phone number is too short")
-      .max(15, "Phone number is too long")
-      .regex(/^\+?\d+$/, "Phone number must contain only digits"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(20, "Password must not be more than 20 characters")
-      .regex(
-        /(?=.*[a-z])/,
-        "Password must contain at least one lowercase letter"
-      )
-      .regex(
-        /(?=.*[A-Z])/,
-        "Password must contain at least one uppercase letter"
-      )
-      .regex(/(?=.*\d)/, "Password must contain at least one number")
-      .regex(
-        /(?=.*[!@#$%^&*])/,
-        "Password must contain at least one special character"
-      ),
-    confirmPassword: z.string(),
-    termsAndCondition: z
-      .boolean()
-      .refine(
-        (val) => val === true,
-        "Please accept the terms and conditions to proceed"
-      ),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-export type SignUpData = z.infer<typeof signUpSchema>;
+import { useSignUp } from "@/lib/hooks/useSignUp";
+import { SignUpData, signUpSchema } from "@/lib/schema/signUpSchema";
 
 export default function SignupPage() {
-  // const { mutate: signUp, isPending } = useSignUp();
-  // const router = useRouter();
+  const { mutate: signUp, isPending } = useSignUp();
+  const router = useRouter();
   // const { isAuthenticated } = useSession();
-
-  // const { isChecking, isAuthenticated } = useProtectedRoute();
 
   const [isVisible, setIsVisible] = useState({
     createPassword: false,
@@ -108,7 +48,6 @@ export default function SignupPage() {
       password: "",
       confirmPassword: "",
       termsAndCondition: false,
-      
     },
   });
 
@@ -130,20 +69,16 @@ export default function SignupPage() {
 
   const onSubmit = (data: SignUpData) => {
     console.log("Signup Data: ", data);
-    const {confirmPassword: _confirmPassword, ...payload} = data;
-    
 
-    // signUp(payload, {
-    //   onSuccess: (res) => {
-    //     toast.success("Signup successful!");
-    //     router.push(
-    //       `/verify-email?email=${encodeURIComponent(res.data.email)}`
-    //     );
-    //   },
-    //   onError: (res) => {
-    //     toast.error(res.message || "Signup failed!");
-    //   },
-    // });
+    signUp(data, {
+      onSuccess: () => {
+        toast.success("Signup successful!");
+        router.push("/login");
+      },
+      onError: (res) => {
+        toast.error(res.message || "Signup failed!");
+      },
+    });
   };
 
   return (
@@ -382,9 +317,7 @@ export default function SignupPage() {
               />
               <p
                 className={`${
-                  passwordReq.characterCount
-                    ? "text-black"
-                    : "text-brand-gray"
+                  passwordReq.characterCount ? "text-black" : "text-brand-gray"
                 }`}
               >
                 8 Characters (20 max)
@@ -401,9 +334,7 @@ export default function SignupPage() {
               />
               <p
                 className={`${
-                  passwordReq.letterAndNumber
-                    ? "text-black"
-                    : "text-brand-gray"
+                  passwordReq.letterAndNumber ? "text-black" : "text-brand-gray"
                 }`}
               >
                 1 letter and 1 number
@@ -466,22 +397,21 @@ export default function SignupPage() {
                 <FieldDescription className="text-slate-600/85 block">
                   By signing up, you agree to our
                   <Link
-                    href="/terms-conditions"
+                    href="#"
                     className="text-primary underline-offset-[1.5px]! "
                   >
                     {" "}
                     Terms of Service{" "}
-                  </Link>{" "}
+                  </Link>
                   and
                   <Link
-                    href="/privacy-policy"
+                    href="#"
                     className="text-primary underline-offset-[1.5px]!"
                   >
                     {" "}
                     Privacy Policy,{" "}
                   </Link>
-                  and consent to receive important shipping updates from
-                  Cargoland Africa.
+                  and consent to receive important updates
                 </FieldDescription>
               </div>
               {fieldState.invalid && (

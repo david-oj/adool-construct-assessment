@@ -193,7 +193,7 @@
   }
 
   .submit-button {
-    @apply h-[55px] w-full rounded-md text-base font-semibold text-white
+    @apply h-[55px] w-full rounded-md text-base font-semibold font-montserrat text-white
   }
 
   .dialog {

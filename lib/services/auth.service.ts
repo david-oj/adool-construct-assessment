@@ -1,4 +1,4 @@
-import { LoginData, SignUpData } from "../schema/signUpSchema";
+import { LoginData, SignUpData } from "../schema/authSchema";
 
 export const auth = {
   async signUp(data: SignUpData) {

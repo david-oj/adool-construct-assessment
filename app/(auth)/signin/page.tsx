@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useSignIn } from "@/lib/hooks/useAuth";
-import { LoginData, loginSchema } from "@/lib/schema/signUpSchema";
+import { LoginData, loginSchema } from "@/lib/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";

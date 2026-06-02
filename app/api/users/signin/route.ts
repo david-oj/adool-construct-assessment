@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { loginSchema } from "@/lib/schema/signUpSchema";
+import { loginSchema } from "@/lib/schema/authSchema";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

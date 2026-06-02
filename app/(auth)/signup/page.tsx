@@ -26,7 +26,7 @@ import IntlTelInput from "@intl-tel-input/react";
 import "intl-tel-input/styles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignUp } from "@/lib/hooks/useAuth";
-import { SignUpData, signUpSchema } from "@/lib/schema/signUpSchema";
+import { SignUpData, signUpSchema } from "@/lib/schema/authSchema";
 
 export default function SignupPage() {
   const { mutate: signUp, isPending } = useSignUp();

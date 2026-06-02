@@ -12,8 +12,8 @@ import {
   FieldTitle,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-// import { useLogIn } from "@/lib/hooks/mutation/useAuth";
-// import { useSession } from "@/lib/hooks/useSession";
+import { useSignIn } from "@/lib/hooks/useAuth";
+import { LoginData, loginSchema } from "@/lib/schema/signUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
@@ -21,30 +21,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
 
-const loginSchema = z.object({
-  email: z
-    .email("Enter a valid email address")
-    .max(100, "email must be less than 100 characters long"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(20, "Password must not be more than 20 characters")
-    .regex(/(?=.*[a-z])/, "Password must contain at least one lowercase letter")
-    .regex(/(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
-    .regex(/(?=.*\d)/, "Password must contain at least one number")
-    .regex(
-      /(?=.*[!@#$%^&*])/,
-      "Password must contain at least one special character"
-    ),
-});
+export default function SignPage() {
+  const { mutate, isPending } = useSignIn();
 
-export type LoginData = z.infer<typeof loginSchema>;
-
-export default function LogInPage() {
-  // const { mutate, isPending } = useLogIn();
-  // const { setUser, setTokens, isAuthenticated } = useSession();
   const router = useRouter();
   const [isVisible, setIsVisible] = useState({
     createPassword: false,
@@ -68,22 +48,15 @@ export default function LogInPage() {
 
   const onSubmit = (data: LoginData) => {
     console.log(data);
-    // mutate(data, {
-    //   onSuccess: (res) => {
-    //     const user = res.data.user;
-    //     const tokens = res.data.token;
-
-    //     if (!tokens || !user) return;
-
-    //     setTokens(tokens);
-    //     setUser(user);
-    //     toast.success(res.message || "Login successful!");
-    //     router.replace("/dashboard");
-    //   },
-    //   onError: (res) => {
-    //     toast.error(res.message || "Login failed!");
-    //   },
-    // });
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success(res.message || "Login successful!");
+        router.replace("/dashboard");
+      },
+      onError: (res) => {
+        toast.error(res.message || "Login failed!");
+      },
+    });
   };
 
   return (

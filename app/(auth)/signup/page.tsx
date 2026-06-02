@@ -18,14 +18,14 @@ import { Input } from "@/components/ui/input";
 import { Check, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+
 import IntlTelInput from "@intl-tel-input/react";
 import "intl-tel-input/styles";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignUp } from "@/lib/hooks/useSignUp";
+import { useSignUp } from "@/lib/hooks/useAuth";
 import { SignUpData, signUpSchema } from "@/lib/schema/signUpSchema";
 
 export default function SignupPage() {
@@ -51,13 +51,6 @@ export default function SignupPage() {
     },
   });
 
-  // route user to dashboard if authenticated
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [isAuthenticated, router]);
-
   const password = useWatch({ control: control, name: "password" }) || "";
 
   const passwordReq = {
@@ -73,7 +66,7 @@ export default function SignupPage() {
     signUp(data, {
       onSuccess: () => {
         toast.success("Signup successful!");
-        router.push("/login");
+        router.push("/signin");
       },
       onError: (res) => {
         toast.error(res.message || "Signup failed!");
@@ -425,7 +418,7 @@ export default function SignupPage() {
         />
 
         <Button
-          // disabled={isPending}
+          disabled={isPending}
           type="submit"
           className="mt-6 submit-button"
         >

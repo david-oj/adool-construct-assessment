@@ -1,21 +1,39 @@
-import { SignUpData } from "@/app/(auth)/signup/page";
+import { LoginData, SignUpData } from "../schema/signUpSchema";
 
+export const auth = {
+  async signUp(data: SignUpData) {
+    const res = await fetch("/api/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
+    const result = await res.json();
 
-export const signUp = async (data: SignUpData) => {
-  const res = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+    if (!res.ok) {
+      throw new Error(result.message || "Something went wrong");
+    }
 
-  const result = await res.json();
+    return result;
+  },
 
-  if (!res.ok) {
-    throw new Error(result.message || "Something went wrong");
-  }
+  async signin(data: LoginData) {
+    const res = await fetch("/api/users/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-  return result;
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "Something went wrong at service");
+    }
+
+    return result;
+  },
 };

@@ -55,7 +55,7 @@ export const signUpSchema = z
 
 export type SignUpData = z.infer<typeof signUpSchema>;
 
-const loginSchema = z.object({
+export const loginSchema = z.object({
   email: z
     .email("Enter a valid email address")
     .max(100, "email must be less than 100 characters long"),

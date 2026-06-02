@@ -59,12 +59,12 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch {
     return Response.json(
       {
         status: "error",
         message: "An error occurred while creating the user",
-        debug: error instanceof Error ? error.message : "Unknown error",
+        // details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

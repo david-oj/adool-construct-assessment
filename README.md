@@ -64,7 +64,7 @@ pnpm install
 
 3. **Set up environment variables**
 
-   - Copy .env.example to .env.local and fill in the required values
+   - Copy .env.example to .env and fill in the required values
    - (see Environment Variables).
 
 4. **Set up the database (see Database Setup)**
@@ -75,7 +75,7 @@ pnpm install
 npx auth secret
 ```
 
-- Copy secret to .env.local AUTH_SECRET=secret
+- Copy secret to .env BETTER_AUTH_SECRET=secret
 
 6. **Run the development server**
 
@@ -102,7 +102,7 @@ pnpm install
 
 3. **Set up environment variables**
 
-   - Copy .env.example to .env.local and fill in the required values
+   - Copy .env.example to .env and fill in the required values
    - (see Environment Variables).
 
 4. **Set up the database (see Database Setup)**
@@ -113,7 +113,7 @@ pnpm install
 npx auth secret
 ```
 
-- Copy secret to .env.local AUTH_SECRET=secret
+- Copy secret to .env BETTER_AUTH_SECRET=secret
 
 6. **Run the development server**
 
@@ -125,31 +125,25 @@ pnpm dev
 
 ## Environment Variables
 
-Create a `.env.local` file in the project root.  
+Create a `.env` file in the project root.
+Note, not env.local only .env.  
 All required variables are listed in `.env.example`.
 
-| Variable     | Description                | Example                         |
-| ------------ | -------------------------- | ------------------------------- |
-| DATABASE_URL | SQLite connection string   | file:./prisma/dev.db            |
-| AUTH_SECRET  | Secret key for JWT signing | secret key from npx auth secret |
+| Variable           | Description                | Example                         |
+| ------------------ | -------------------------- | ------------------------------- |
+| DATABASE_URL       | SQLite connection string   | file:./dev.db.db                |
+| BETTER_AUTH_SECRET | Secret key for JWT signing | secret key from npx auth secret |
 
-> **Important:** Never commit `.env.local` to version control.
+> **Important:** Never commit `.env` to version control.
 
 ## Database Setup
 
 This project uses Prisma with SQLite. No external database server is required.
 
-1. **initialize Prisma:**
+1. **Sync the Prisma schema to your SQLite database:**
 
 ```bash
 pnpm prisma migrate dev
-
-```
-
-2. **Sync the Prisma schema to your SQLite database:**
-
-```bash
-npx prisma init
 
 ```
 
@@ -159,7 +153,7 @@ npx prisma init
 pnpm prisma generate
 ```
 
-- The database file (dev.db) will be created inside the prisma/ folder.
+- The database file (dev.db) will be created inside the root folder as dev.db
 
 ## Running the App
 
@@ -226,7 +220,7 @@ adool-construct-assessment/
 ├── prisma.config.ts # Prisma configuration (root)
 ├── proxy.ts # Next.js 16 middleware
 ├── auth.ts # Auth.js configuration
-├── .env.local
+├── .env
 └── README.md
 
 ## Design Choices & Trade-offs

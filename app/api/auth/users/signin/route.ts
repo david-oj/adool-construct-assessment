@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     );
   } catch {
     return NextResponse.json(
-      { status: "error", message: "Something went wrong" },
+      { status: "error", message: "invalid username or password" },
       { status: 500 }
     );
   }

@@ -82,17 +82,23 @@ export default function SignupPage() {
       >
         <FieldSet className="gap-0">
           <div className="flex flex-col items-center">
-            <FieldTitle className="font-heading text-2xl font-bold leading-8 text-center">
-              Create Your CargoLand Account
+            <FieldTitle className="font-heading text-2xl font-bold leading-8 text-center gap-0">
+              <p className="font-heading text-2xl font-bold leading-8 text-center">
+                Create Your Task
+                <span className="font-heading text-2xl font-bold leading-8 text-center text-primary">
+                  Flow
+                </span>{" "}
+                Account
+              </p>
             </FieldTitle>
             <FieldLegend className="mt-2 font-roboto text-brand-gray text-base font-normal leading-6 text-center">
-              Sign up to start shipping smarter and track every delivery with
+              Sign up to start working smarter and track every task with
               ease.
             </FieldLegend>
           </div>
 
           <FieldGroup className="mt-8 gap-6">
-            <div className="grid grid-cols-2 gap-4.5">
+            <div className="grid md:grid-cols-2 gap-4.5">
               <Controller
                 name="firstName"
                 control={control}

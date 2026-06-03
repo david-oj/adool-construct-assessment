@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { taskSchema } from "@/lib/schema/taskSchema";
+import { taskSchema, taskUpdateSchema } from "@/lib/schema/taskSchema";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -84,7 +84,7 @@ export async function PATCH(
     }
 
     const body = await req.json();
-    const parsed = taskSchema.safeParse(body);
+    const parsed = taskUpdateSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(

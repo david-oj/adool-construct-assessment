@@ -24,7 +24,6 @@ import { useCreateTask, useUpdateTask } from "@/lib/hooks/useTasks";
 import { toast } from "sonner";
 import { Task } from "@/lib/services/task.service";
 
-
 interface TaskDialogProps {
   open: boolean;
   setOpen: (val: boolean) => void;
@@ -180,6 +179,9 @@ const TaskDialog = ({ open, setOpen, editData }: TaskDialogProps) => {
                       <SelectContent position="popper">
                         <SelectItem value="PENDING">Pending</SelectItem>
                         <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                        {isEdit && (
+                          <SelectItem value="COMPLETED">Completed</SelectItem>
+                        )}
                       </SelectContent>
                     </Select>
 

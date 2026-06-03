@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import Providers from "./Providers";
+import Header from "@/components/layout/Header";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -39,7 +40,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <main className="flex-1 flex flex-col pb-4 md:pb-6">{children}</main>
+        </Providers>
       </body>
     </html>
   );

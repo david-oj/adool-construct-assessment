@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -67,12 +67,18 @@ export default function SignPage() {
       >
         <FieldSet className="gap-0">
           <div className="flex flex-col items-center">
-            <FieldTitle className="font-heading text-2xl font-bold leading-8 text-center">
-              Cargoland Account Login
+            <FieldTitle className="font-heading text-2xl font-bold leading-8 text-center gap-0">
+              <p className="font-heading text-2xl font-bold leading-8 text-center">
+                Task
+                <span className="font-heading text-2xl font-bold leading-8 text-center text-primary">
+                  Flow
+                </span>{" "}
+                Login
+              </p>
             </FieldTitle>
             <FieldLegend className="mt-2 font-roboto text-brand-gray text-base font-normal leading-6 text-center">
-              Welcome back! Sign in to continue shipping and tracking your
-              packages.
+              Welcome back! Sign in to continue tracking and managing your
+              Tasks.
             </FieldLegend>
           </div>
 
@@ -109,7 +115,7 @@ export default function SignPage() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={field.name} className="form-label">
-                    Create Password
+                    Password
                   </FieldLabel>
                   <div className="relative">
                     <Input
@@ -172,13 +178,13 @@ export default function SignPage() {
             </label>
             <span className="text-slate-500">Remember me</span>
           </div>
-          <Link href="/forgot-password" className="text-primary underline">
-            Forget Password{" "}
+          <Link href="/signup" className="text-primary underline underline-offset-[1.5px]">
+            Create an account{" "}
           </Link>
         </div>
 
         <Button
-          // disabled={isPending}
+          disabled={isPending}
           type="submit"
           className="mt-6 submit-button"
         >

@@ -1,12 +1,7 @@
 "use client";
 
 import { boxChecked } from "@/assets/images";
-import {
-  DeliveryTruckBolt,
-  DeliveryTruckSpeed,
-  Orders,
-  PendingClipboard,
-} from "@/components/icons";
+import { PendingClipboard } from "@/components/icons";
 import Loader from "@/components/Loader";
 import ShowTaskDialog from "@/components/tasks/ShowTaskDialog ";
 import TaskDialog from "@/components/tasks/TaskDialog";
@@ -25,11 +20,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useDeleteTask, useTasks } from "@/lib/hooks/useTasks";
+import { useDashboardStats } from "@/lib/hooks/useDashboard";
+import { useCompleteTask, useDeleteTask, useTasks } from "@/lib/hooks/useTasks";
 import { Task } from "@/lib/services/task.service";
-
 import { formatDate } from "@/lib/utils";
-import { ClipboardEdit, MoreVertical, Trash2 } from "lucide-react";
+import {
+  CheckCheck,
+  ClipboardEdit,
+  MoreVertical,
+  Trash2,
+  Clock,
+  Timer,
+  ListTodo,
+  CheckCircle2,
+  ClipboardListIcon,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { MouseEvent, useState } from "react";
@@ -45,15 +50,15 @@ export const statusStyles = {
     containerStyles: "border-blue-600 bg-blue-600/5 text-blue-600",
   },
   COMPLETED: {
-    bgcolor: "bg-cargo-success",
-    containerStyles:
-      "border-cargo-success bg-cargo-success/5 text-cargo-success",
+    bgcolor: "bg-green-600",
+    containerStyles: "border-green-600 bg-green-600/5 text-green-600",
   },
 };
 
 export default function DashboardPage() {
-  // const { data, isLoading: isLoadingStats } = useDashboardStats();
+  const { data, isLoading: isLoadingStats } = useDashboardStats();
   const { data: tasks, isSuccess, isLoading, isError } = useTasks();
+  const { mutate: completeTask, isPending: isCompleting } = useCompleteTask();
   const { mutate: deleteTask, isPending: isDeleting } = useDeleteTask();
   const { data: session } = useSession();
 
@@ -63,51 +68,49 @@ export default function DashboardPage() {
 
   console.log("Session:", session);
 
-  const isLoadingStats = true;
-
   // console.log("DashboardStats", data);
   // console.log("session", session, isAuthenticated);
 
-  // const getDashboardStats = () => {
-  //   const dashboardStats = [
-  //     {
-  //       title: "Total Shipments",
-  //       icon: Orders,
-  //       figure: data?.totalShipments || 0,
-  //     },
-  //     {
-  //       title: "Active Shipments",
-  //       icon: DeliveryTruckSpeed,
-  //       figure: data?.activeShipments || 0,
-  //     },
-  //     {
-  //       title: "Pending Shipments",
-  //       icon: PendingClipboard,
-  //       figure: data?.pendingShipments || 0,
-  //     },
-  //     {
-  //       title: "Delivered Shipments",
-  //       icon: DeliveryTruckBolt,
-  //       figure: data?.deliveredShipments || 0,
-  //     },
-  //   ];
+  const getDashboardStats = () => {
+    const dashboardStats = [
+      {
+        title: "Total ",
+        icon: ListTodo,
+        figure: data?.total || 0,
+      },
+      {
+        title: "Pending ",
+        icon: PendingClipboard,
+        figure: data?.pending || 0,
+      },
+      {
+        title: "In Progress",
+        icon: Timer,
+        figure: data?.inProgress || 0,
+      },
+      {
+        title: "Completed ",
+        icon: CheckCircle2,
+        figure: data?.completed || 0,
+      },
+    ];
 
-  //   return dashboardStats;
-  // };
+    return dashboardStats;
+  };
 
   const handleShowDialog = (id: string) => {
     setSelectedDialog(id === selectedDialog ? null : id);
   };
 
   const handleDelete = (id: string, e: MouseEvent) => {
-    if (!id) return;
+    if (!id || isDeleting) return;
     e.stopPropagation();
     deleteTask(id, {
       onSuccess: (res) => {
         toast.success(res.message || "Task deleted successfully");
       },
       onError: (res) => {
-        toast.error(res.message || "Task deleted successfully");
+        toast.error(res.message || "Failed to deleted task");
       },
     });
   };
@@ -118,48 +121,44 @@ export default function DashboardPage() {
     setOpenDialog(true);
   };
 
-  const dashboardStats = [
-    {
-      title: "Total Shipments",
-      icon: Orders,
-      figure: 200000,
-    },
-    {
-      title: "Active Shipments",
-      icon: DeliveryTruckSpeed,
-      figure: 100000,
-    },
-    {
-      title: "Pending Shipments",
-      icon: PendingClipboard,
-      figure: 10000,
-    },
-    {
-      title: "Delivered Shipments",
-      icon: DeliveryTruckBolt,
-      figure: 340000,
-    },
-  ];
+  const handleComplete = (id: string, e: MouseEvent) => {
+    if (isCompleting) return;
+    e.stopPropagation();
+
+    completeTask(id, {
+      onSuccess: (res) => {
+        toast.success(res.message || "Task completed successfully");
+      },
+      onError: (res) => {
+        toast.error(res.message || "Failed to complete successfully");
+      },
+    });
+  };
+
+  const dashboardStats = getDashboardStats();
+
+  const isOperating = isDeleting || isCompleting;
 
   const fullName = `${session?.user?.firstName || ""} ${
     session?.user?.lastName || ""
   }`;
 
   return (
-    <div className="padding-x mt-16.5">
+    <div className="padding-x mt-15 md:mt-16.5">
       <TaskDialog open={openDialog} setOpen={setOpenDialog} />
 
       <section className="">
-        <h1 className="font-bold text-[32px] leading-10 ">
+        <h1 className="font-bold text-2xl md:text-[32px] leading-8 md:leading-10 ">
           Welcome, {fullName}
         </h1>
-        <p className="text-base font-light leading-6">
-          Manage your shipments easily with fast tracking and reliable delivery.
+        <p className="md:text-base font-light leading-5 md:leading-6">
+          Manage your tasks easily with clear progress tracking and efficient
+          completion.
         </p>
       </section>
-      <section className="mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-6 ">
+      <section className="mt-5 md:mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 ">
         {dashboardStats.map((shipment, idx) => (
-          <div className=" px-5.25 py-6.75 bg-white rounded-[16px]" key={idx}>
+          <div className=" px-5 py-6.5 bg-white rounded-[16px]" key={idx}>
             <div className="flex items-center gap-3">
               <shipment.icon className="size-6 text-primary" />
               <p className="leading-5.5 text-neutral-500">{shipment.title}</p>
@@ -175,6 +174,7 @@ export default function DashboardPage() {
           </div>
         ))}
       </section>
+
       <section className="mt-8">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold leading-7">Recent Shipments</h2>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
         </div>
 
         {isLoading && (
-          <div className="h-20 flex items-center justify-center">
+          <div className="mt-2 min-h-[200px] md:min-h-[270px] flex flex-col items-center justify-center">
             <Loader styles="size-9 sm:size-12 " />
           </div>
         )}
@@ -201,25 +201,17 @@ export default function DashboardPage() {
         )}
 
         {isSuccess && tasks.length === 0 && (
-          <div className="mt-3 min-h-[437px] md:min-h-[537px] flex flex-col rounded-lg bg-white">
+          <div className="mt-3 min-h-[280px] md:min-h-[337px] flex flex-col rounded-lg bg-white">
             <div className="flex-1 flex flex-col items-center justify-center">
-              <div className="size-40 relative">
-                <Image
-                  src={boxChecked}
-                  alt="box package checked icon"
-                  className="size-full object-cover"
-                  fill
-                />
-              </div>
+              <ClipboardListIcon className="size-20 md:size-30 text-secondary" />
 
-              <div className="mt-4 space-y-2 max-w-[370px] ">
-                <h3 className="text-xl font-normal leading-6 font-roboto text-center">
-                  No Recent Orders
+              <div className="mt-4 space-y-1 md:space-y-2 max-w-[370px] ">
+                <h3 className="text-lg md:text-xl font-normal leading-6 font-roboto text-center">
+                  No Recent Taks
                 </h3>
 
-                <p className="text-base font-light leading-6 text-center text-neutral-700">
-                  Manage your shipments easily with fast tracking and reliable
-                  delivery.
+                <p className="md:text-base font-light leading-5 md:leading-6 text-center text-neutral-700">
+                  Create a new task to get started with Taskflow
                 </p>
               </div>
             </div>
@@ -261,7 +253,7 @@ export default function DashboardPage() {
                       onClick={() => handleShowDialog(task.id)}
                       key={idx}
                       className={` 
-                      ${isDeleting && "animate-pulse duration-300"}
+                      ${isOperating && "animate-pulse duration-300"}
                       h-15.5 hover:cursor-pointer`}
                     >
                       <TableCell className="pl-6 leading-5.5 max-w-35 overflow-hidden">
@@ -301,13 +293,25 @@ export default function DashboardPage() {
                             {/* Edit button */}
                             <DropdownMenuItem asChild>
                               <Button
-                                variant="secondary"
+                                variant="ghost"
                                 onClick={(e) => handleEdit(task, e)}
                                 className="gap-2 text-sm md:text-base font-roboto cursor-pointer justify-between pr-3 w-full bg-transparent"
                               >
                                 Edit <ClipboardEdit className="size-4" />
                               </Button>
                             </DropdownMenuItem>
+
+                            {/* Complete button */}
+                            <DropdownMenuItem asChild>
+                              <Button
+                                variant="ghost"
+                                onClick={(e) => handleComplete(task.id, e)}
+                                className="gap-2 text-sm md:text-base font-roboto cursor-pointer justify-between pr-3 w-full bg-transparent"
+                              >
+                                Complete <CheckCheck className="size-4" />
+                              </Button>
+                            </DropdownMenuItem>
+                            
                             {/* Delete Button */}
                             <DropdownMenuItem asChild>
                               <Button
@@ -315,7 +319,7 @@ export default function DashboardPage() {
                                 variant="destructive"
                                 className="gap-2 text-sm md:text-base font-roboto cursor-pointer justify-between pr-3 w-full"
                               >
-                                Delete{" "}
+                                Delete
                                 <Trash2 className="size-4 text-red-600" />
                               </Button>
                             </DropdownMenuItem>

@@ -4,7 +4,8 @@ import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Calendar, Clock, FileText, Tag, User } from "lucide-react";
 import { useGetTask } from "@/lib/hooks/useTasks";
 import Loader from "../Loader";
-import { statusStyles } from "@/app/dashboard/page";
+import { statusStyles } from "../DashboardPageContent";
+import { formatDate, formatTime } from "@/lib/utils";
 
 interface ShowTaskDialogProps {
   open: boolean;
@@ -21,16 +22,20 @@ const ShowTaskDialog = ({ open, setSelected, id }: ShowTaskDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={() => setSelected(id)}>
-      <DialogContent className="dialog min-h-[306px]! py-6! flex flex-col">
+      <DialogContent className="dialog min-h-76.5! py-6! flex flex-col">
         {isLoading && (
           <div className="h-20 flex-1 flex flex-col items-center justify-center">
             <Loader styles="size-9 sm:size-12 " />
           </div>
         )}
-        
+
         {isError && (
-          <div className="h-20 flex items-center justify-center">
-            <p className="text-sm text-muted-foreground">Failed to get Tasks</p>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="p-2 bg-red-600/8 w-full rounded-md">
+              <p className="text-sm text-red-600 text-center">
+                Failed to get Tasks
+              </p>
+            </div>
           </div>
         )}
 
@@ -71,25 +76,14 @@ const ShowTaskDialog = ({ open, setSelected, id }: ShowTaskDialogProps) => {
               <div className="flex items-center gap-2">
                 <Calendar className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Created</span>
-                <span className="text-sm">
-                  {new Date(task.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
+                <span className="text-sm">{formatDate(task.createdAt)}</span>
               </div>
 
               {/* Time */}
               <div className="flex items-center gap-2">
                 <Clock className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Time</span>
-                <span className="text-sm">
-                  {new Date(task.createdAt).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
+                <span className="text-sm">{formatTime(task.createdAt)}</span>
               </div>
 
               {/* Task ID (optional, subtle) */}

@@ -1,6 +1,5 @@
 "use client";
 
-import { boxChecked } from "@/assets/images";
 import { PendingClipboard } from "@/components/icons";
 import Loader from "@/components/Loader";
 import ShowTaskDialog from "@/components/tasks/ShowTaskDialog ";
@@ -29,14 +28,12 @@ import {
   ClipboardEdit,
   MoreVertical,
   Trash2,
-  Clock,
   Timer,
   ListTodo,
   CheckCircle2,
   ClipboardListIcon,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { MouseEvent, useState } from "react";
 import { toast } from "sonner";
 
@@ -55,7 +52,7 @@ export const statusStyles = {
   },
 };
 
-export default function DashboardPage() {
+const DashboardPageContent = () => {
   const { data, isLoading: isLoadingStats } = useDashboardStats();
   const { data: tasks, isSuccess, isLoading, isError } = useTasks();
   const { mutate: completeTask, isPending: isCompleting } = useCompleteTask();
@@ -65,11 +62,6 @@ export default function DashboardPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedDialog, setSelectedDialog] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-
-  console.log("Session:", session);
-
-  // console.log("DashboardStats", data);
-  // console.log("session", session, isAuthenticated);
 
   const getDashboardStats = () => {
     const dashboardStats = [
@@ -191,21 +183,25 @@ export default function DashboardPage() {
         </div>
 
         {isLoading && (
-          <div className="mt-2 min-h-[200px] md:min-h-[270px] flex flex-col items-center justify-center">
+          <div className="mt-2 min-h-50 md:min-h-67.5 flex flex-col items-center justify-center">
             <Loader styles="size-9 sm:size-12 " />
           </div>
         )}
 
         {isError && (
-          <p className="text-red-600 font-roboto ">Failed to fetch all Tasks</p>
+          <div className="mt-6 p-2 bg-red-600/8 w-full rounded-md">
+            <p className="text-sm text-red-600 text-center">
+              Failed to get Tasks
+            </p>
+          </div>
         )}
 
         {isSuccess && tasks.length === 0 && (
-          <div className="mt-3 min-h-[280px] md:min-h-[337px] flex flex-col rounded-lg bg-white">
+          <div className="mt-3 min-h-70 md:min-h-84.25 flex flex-col rounded-lg bg-white">
             <div className="flex-1 flex flex-col items-center justify-center">
               <ClipboardListIcon className="size-20 md:size-30 text-secondary" />
 
-              <div className="mt-4 space-y-1 md:space-y-2 max-w-[370px] ">
+              <div className="mt-4 space-y-1 md:space-y-2 max-w-92.5 ">
                 <h3 className="text-lg md:text-xl font-normal leading-6 font-roboto text-center">
                   No Recent Taks
                 </h3>
@@ -221,7 +217,7 @@ export default function DashboardPage() {
         {isSuccess && tasks.length > 0 && (
           <Table className="mt-3 bg-white rounded-lg">
             <TableHeader>
-              <TableRow className="h-[53px]">
+              <TableRow className="h-13.25">
                 <TableHead className="pl-6 text-sm font-normal leading-5.5 font-roboto text-neutral-600/90">
                   Task ID
                 </TableHead>
@@ -282,7 +278,7 @@ export default function DashboardPage() {
                       <TableCell className="pr-6">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <button className="size-6 flex items-center justify-center border border-neutral-200 rounded-[4px]">
+                            <button className="size-6 flex items-center justify-center border border-neutral-200 rounded-lg">
                               <MoreVertical className="size-4" />
                             </button>
                           </DropdownMenuTrigger>
@@ -311,7 +307,7 @@ export default function DashboardPage() {
                                 Complete <CheckCheck className="size-4" />
                               </Button>
                             </DropdownMenuItem>
-                            
+
                             {/* Delete Button */}
                             <DropdownMenuItem asChild>
                               <Button
@@ -351,4 +347,6 @@ export default function DashboardPage() {
       {/* <section></section> */}
     </div>
   );
-}
+};
+
+export default DashboardPageContent;

@@ -1,6 +1,5 @@
 "use client";
 
-// import { EyeOff } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -39,19 +38,13 @@ export default function SignPage() {
     },
   });
 
-  // route user to dashboard if authenticated
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [isAuthenticated, router]);
 
   const onSubmit = (data: LoginData) => {
     console.log(data);
     mutate(data, {
       onSuccess: (res) => {
         toast.success(res.message || "Login successful!");
-        router.replace("/dashboard");
+        router.replace("/");
       },
       onError: (res) => {
         toast.error(res.message || "Login failed!");
@@ -63,7 +56,7 @@ export default function SignPage() {
     <div className="margin-y padding-x">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-6 bg-white rounded-lg max-w-[747px] mx-auto "
+        className="p-6 bg-white rounded-lg max-w-186.75 mx-auto "
       >
         <FieldSet className="gap-0">
           <div className="flex flex-col items-center">
@@ -163,7 +156,7 @@ export default function SignPage() {
             >
               <Input id="rememberMe" type="checkbox" className="peer hidden" />
 
-              <div className="size-4.5 border-2 shrink-0 border-slate-600/90 rounded-[2px] peer-checked:bg-primary peer-checked:border-primary peer-checked:[&>svg]:block flex items-center justify-center">
+              <div className="size-4.5 border-2 shrink-0 border-slate-600/90 rounded-xs peer-checked:bg-primary peer-checked:border-primary peer-checked:[&>svg]:block flex items-center justify-center">
                 <svg
                   className="hidden text-white"
                   xmlns="http://www.w3.org/2000/svg"

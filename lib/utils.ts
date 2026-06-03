@@ -9,5 +9,9 @@ export function cn(...inputs: ClassValue[]) {
 export function formatDate(date: Date | string) {
   if (!date) return null;
 
-  return `${format(date, "MMM d, yyyy")}`;
+  return `${format(date, "MMMM d, yyyy")}`;
+}
+
+export function formatTime(date: Date | string) {
+return `${format(date, "h:m aaa")}`
 }

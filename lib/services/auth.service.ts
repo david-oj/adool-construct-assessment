@@ -2,7 +2,7 @@ import { LoginData, SignUpData } from "../schema/authSchema";
 
 export const auth = {
   async signUp(data: SignUpData) {
-    const res = await fetch("/api/users/signup", {
+    const res = await fetch("/api/auth/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const auth = {
   },
 
   async signin(data: LoginData) {
-    const res = await fetch("/api/users/signin", {
+    const res = await fetch("/api/auth/users/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

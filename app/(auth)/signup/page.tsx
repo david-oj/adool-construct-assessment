@@ -78,7 +78,7 @@ export default function SignupPage() {
     <div className="margin-y padding-x">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-6 bg-white rounded-lg max-w-[747px] mx-auto "
+        className="p-6 bg-white rounded-lg max-w-186.75 mx-auto "
       >
         <FieldSet className="gap-0">
           <div className="flex flex-col items-center">
@@ -305,8 +305,8 @@ export default function SignupPage() {
             Requirements:
           </h3>
 
-          <div className="flex flex-wrap gap-y-3 gap-x-4 max-w-[348px]">
-            <div className="flex gap-2.5 items-center min-w-[148px]">
+          <div className="flex flex-wrap gap-y-3 gap-x-4 max-w-87">
+            <div className="flex gap-2.5 items-center min-w-37">
               <Check
                 className={`${
                   passwordReq.characterCount
@@ -323,7 +323,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <div className="flex gap-2.5 items-center min-w-[148px]">
+            <div className="flex gap-2.5 items-center min-w-37">
               <Check
                 className={`${
                   passwordReq.letterAndNumber
@@ -340,7 +340,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <div className="flex gap-2.5 items-center min-w-[148px]">
+            <div className="flex gap-2.5 items-center min-w-37">
               <Check
                 className={`${
                   passwordReq.specialCharacter
@@ -380,7 +380,7 @@ export default function SignupPage() {
                     className="peer hidden"
                   />
 
-                  <div className="size-4.5 border-2 shrink-0 border-slate-600/90 rounded-[2px] peer-checked:bg-primary peer-checked:border-primary peer-checked:[&>svg]:block flex items-center justify-center">
+                  <div className="size-4.5 border-2 shrink-0 border-slate-600/90 rounded-xs peer-checked:bg-primary peer-checked:border-primary peer-checked:[&>svg]:block flex items-center justify-center">
                     <svg
                       className="hidden text-white"
                       xmlns="http://www.w3.org/2000/svg"

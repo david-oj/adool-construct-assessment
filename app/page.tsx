@@ -1,10 +1,5 @@
+import DashboardPageContent from "../components/DashboardPageContent";
 
-
-export default function HomePage(){
-
-  return (
-    <div>
-      
-    </div>
-  )
+export default function DashboardHomePage() {
+  return <DashboardPageContent />;
 }

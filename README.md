@@ -52,14 +52,14 @@ A production‑grade CRUD task management web application built with
 1. **Extract the ZIP file**
 
 ```bash
-    unzip adool-construct-assessment.zip
-    cd adool-construct-assessment
+unzip adool-construct-assessment.zip
+cd adool-construct-assessment
 ```
 
 2. **Install dependencies**
 
 ```bash
-    pnpm install
+pnpm install
 ```
 
 3. **Set up environment variables**
@@ -72,7 +72,7 @@ A production‑grade CRUD task management web application built with
 5. **Generate auth secret**
 
 ```bash
-    pnpm dlx auth secret
+npx auth secret
 ```
 
 - Copy secret to .env.local AUTH_SECRET=secret
@@ -80,7 +80,7 @@ A production‑grade CRUD task management web application built with
 6. **Run the development server**
 
 ```bash
-    pnpm dev
+pnpm dev
 ```
 
 - The app will be available at http://localhost:3000.
@@ -90,14 +90,14 @@ A production‑grade CRUD task management web application built with
 1. **Clone the repository**
 
 ```bash
-    git clone <repo-url>
-    cd adool-construct-assessment
+git clone <repo-url>
+cd adool-construct-assessment
 ```
 
 2. **Install dependencies**
 
 ```bash
-    pnpm install
+pnpm install
 ```
 
 3. **Set up environment variables**
@@ -110,7 +110,7 @@ A production‑grade CRUD task management web application built with
 5. **Generate auth secret**
 
 ```bash
-    pnpm dlx auth secret
+npx auth secret
 ```
 
 - Copy secret to .env.local AUTH_SECRET=secret
@@ -118,7 +118,7 @@ A production‑grade CRUD task management web application built with
 6. **Run the development server**
 
 ```bash
-    pnpm dev
+pnpm dev
 ```
 
 - The app will be available at http://localhost:3000.
@@ -139,17 +139,24 @@ All required variables are listed in `.env.example`.
 
 This project uses Prisma with SQLite. No external database server is required.
 
-1. **initialize and sync the Prisma schema to your SQLite database:**
+1. **initialize Prisma:**
 
 ```bash
-    pnpm prisma migrate dev
+pnpm prisma migrate dev
+
+```
+
+2. **Sync the Prisma schema to your SQLite database:**
+
+```bash
+npx prisma init
 
 ```
 
 2. **Generate the type‑safe Prisma client (also done automatically after migrate dev):**
 
 ```bash
-    pnpm prisma generate
+pnpm prisma generate
 ```
 
 - The database file (dev.db) will be created inside the prisma/ folder.
@@ -159,7 +166,7 @@ This project uses Prisma with SQLite. No external database server is required.
 Start the development server:
 
 ```bash
-    pnpm dev
+pnpm dev
 ```
 
 Then:
@@ -281,4 +288,3 @@ adool-construct-assessment/
 ## Video Walkthrough
 
 A video demonstrating the full flow (sign‑up, sign‑in, CRUD operations, code structure) is available at the link provided in the submission email.
-

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { taskSchema, taskUpdateSchema } from "@/lib/schema/taskSchema";
+import {  taskUpdateSchema } from "@/lib/schema/taskSchema";
 import { NextResponse } from "next/server";
 
 export async function GET(

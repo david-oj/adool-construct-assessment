@@ -169,7 +169,7 @@ const DashboardPageContent = () => {
 
       <section className="mt-8">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold leading-7">Recent Shipments</h2>
+          <h2 className="text-xl font-semibold leading-7">Recent Tasks</h2>
           <Button
             onClick={() => {
               setEditingTask(null);
@@ -223,10 +223,10 @@ const DashboardPageContent = () => {
                 </TableHead>
 
                 <TableHead className="text-sm font-normal leading-5.5 font-roboto text-neutral-600/90">
-                  Shipping Type
+                  Task Type
                 </TableHead>
                 <TableHead className="text-sm font-normal leading-5.5 font-roboto text-neutral-600/90">
-                  Price
+                  Description
                 </TableHead>
                 <TableHead className="text-sm font-normal leading-5.5 font-roboto text-neutral-600/90">
                   Date
